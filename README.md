@@ -1,6 +1,6 @@
 # jihadC_f
 
-JihadCLOUD v1.0 is an Web & Android digital apps which you can download and upload your own application or software and everything for FREE.
+JihadCLOUD v1.0 is an Multi uploader manager system e.g. on web & android apps, video, document and other digital apps which you can download and upload your own application or software and everything for FREE.
  And it is multi uploader software apps include very easy to manage with Open source licensed.
 
 This software uses open-source plugins blueimp, foundation, lightbox and jquery.

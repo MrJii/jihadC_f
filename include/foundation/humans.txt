@@ -1,0 +1,8 @@
+/* Foundation was made by Jii Yo, an interaction design and design strategy firm in Davao City, Philippines */
+/* facebbok.com/saaduddinj */
+/* facebook.com/davaocloudstudio */
+
+/* SITE */
+  Standards: HTML5, CSS3
+  Components: jQuery, Orbit, Reveal
+  Software: Coda, Textmate, Git

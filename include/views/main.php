@@ -1,0 +1,187 @@
+<body class="main">
+
+<!-- prepare upload templates -->
+<?php jihadC::display("main_tmpl.php")?>
+
+<?php if(jihadCconf::get('use_auth') == true && jihadCconf::get('show_top_auth_bar') == true && $_SESSION['simple_auth']['username'] != 'guest'):?>
+<div class="top-menu">
+<div class="row">
+<a class="version-info"><?php echo lang::get("jCloud About")?></a>
+
+ <?php if(jihadCconf::get('allow_change_password')):?>
+ 	<a class="username-edit"><?php echo $_SESSION['simple_auth']['username']?></a>
+ <?php else:?>
+	 <?php echo $_SESSION['simple_auth']['username']?>
+ <?php endif;?>
+ | <a href="?logout=1"><?php echo lang::get("Sign out")?></a>
+</div>
+</div>
+<div class="top-menu-spacer"></div>
+<?php endif;?>
+
+<div id="wrapper" class="row">
+<div class="container twelve columns">
+<div id="topcorners"></div>
+<div id="content">
+
+<?php if(jihadCconf::get('use_auth') == true && jihadCconf::get('show_top_auth_bar') == false && $_SESSION['simple_auth']['username'] != 'guest'):?>
+<div class="small-auth-menu">
+ <a class="version-info"><?php echo lang::get("jCloud About")?></a>&nbsp;
+ | 
+ 
+ <?php if(jihadCconf::get('allow_change_password')):?>
+ 	<a class="username-edit"><?php echo $_SESSION['simple_auth']['username']?></a>
+ <?php else:?>
+	 <?php echo $_SESSION['simple_auth']['username']?>
+ <?php endif;?>
+ 
+ | <a href="?logout=1"><?php echo lang::get("Sign out")?></a>
+</div>
+<?php endif;?>
+
+<?php if(jihadCconf::get('use_auth') == true && $_SESSION['simple_auth']['username'] == 'guest'):?>
+<div class="small-auth-menu">
+ <a class="version-info"><?php echo lang::get("About")?> |
+ <br>
+ <br>
+ <a href="?login=1"> <?php echo lang::get("Sign in")?></a>
+</div>
+<?php endif;?>
+<div id="logo">
+<a href="<?php echo jihadCconf::get('base_url')?>/?cd="><img alt="JihadCloud" src="<?php echo jihadCconf::get('base_url')?>/include/views/img/logo.gif"></a>
+</div>
+
+<div class="fileupload-container navigation-button">
+    <!-- The file upload form used as target for the file upload widget -->
+    <form id="fileupload" action="#" method="POST" enctype="multipart/form-data">
+        <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
+        <div class="nav fileupload-buttonbar">
+                
+					
+				<?php if (jihadC::checkPermissions('ru')):?>
+                <!-- The fileinput-button span is used to style the file input field as button -->
+                <span class="fileinput-button nice radius button">
+                    <i class="icon-plus icon-white"></i>
+					
+					<span class=""><?php echo lang::get("Publish Your App")?></span>
+
+                    <input type="file" name="files[]" multiple>
+                    <input type="hidden" name="uniqid" value="50338402749c1">
+                </span>
+                <?php endif;?>
+                
+                <div class="clear"></div>
+                
+        </div>
+        
+        <!-- The table listing the files available for upload/download -->
+		<div id="top-panel">
+        <table role="presentation" class="table table-striped">
+         <tbody class="files" data-toggle="modal-gallery" data-target="#modal-gallery">
+         </tbody>
+        </table>
+        
+        </div>
+    </form>
+</div>
+
+<?php if (jihadC::checkPermissions('rw')):?>          
+<div id="newfolder_button" class="navigation-button-right">
+ <input type="text" class="inputtext" name="newfolder" id="newfolder" placeholder="Create Folder Name">
+
+ <div class="nice radius button split dropdown navigation-button-right">
+  <a class="new-folder"><?php echo lang::get("Create Folder")?></a>
+  <!--span></span>
+  <ul>
+	<li><a class="new-folder">< ?php echo lang::get("Create New Folder")?></a></li>
+    <li><a class="new-file">< ?php echo lang::get("Create New File")?></a></li>
+  </ul-->
+</div>
+
+</div>
+<?php endif;?>
+                
+<div id="close-top-panel" class="clear">
+<button type="button" class="nice radius button right upload-done"><?php echo lang::get("Done")?></button>
+</div>
+
+<div id="browse-panel">
+
+<div class="breadcrumbs">
+<span>
+<?php foreach($params['breadcrumb'] as $key => $value):?>
+<?php if($key != 'Home') echo '&raquo;&nbsp;'?>
+<a href="<?php echo $value?>"><?php echo $key?></a>
+<?php endforeach;?>
+</span>
+</div>
+
+<div class="filter-field">
+    <div class="row">
+     <div class="twelve columns">
+      <div class="row collapse">
+       <div class="nine mobile-three columns">
+        <input type="text">
+       </div>
+       <div class="three mobile-one columns">
+        <span class="postfix"></span>
+       </div>
+      </div>
+     </div>
+	</div>
+</div>
+
+<a class="directory-tree"></a>
+<a class="view-style" style="display:none"></a>
+<a class="image-size decrease" style="display:none"></a>
+<a class="image-size increase" style="display:none"></a>
+
+<div class="clear"></div>
+
+<form id="fileset" action="?" method="POST" accept-charset="UTF-8">
+
+<?php jihadC::display("main_filelist.php", $params)?>
+
+<div class="bottom-actions">
+<?php if (jihadC::checkPermissions('rw')):?>
+<button type="button" class="nice radius button select-button"><?php echo lang::get("Select All")?></button>
+
+<?php if (jihadCconf::get('simple_copy_move')):?>
+<button type="button" class="nice secondary radius button simple-copy-selected"><?php echo lang::get("Duplicate")?></button>
+<button type="button" class="nice secondary radius button simple-move-selected"><?php echo lang::get("Move")?></button>
+<?php else:?>
+<button type="button" class="nice secondary radius button cut-selected"><?php echo lang::get("Cut")?></button>
+<button type="button" class="nice secondary radius button copy-selected"><?php echo lang::get("Copy")?></button>
+<button type="button" class="nice secondary radius button paste-selected"<?php if (!isset($_SESSION['buffer'])) echo ' disabled="disabled"'?>"><?php echo lang::get("Paste")?></button>
+<?php endif;?>
+
+<?php if (jihadCconf::get('use_zip')):?>
+<button type="button" class="nice secondary radius button zip-selected"><?php echo lang::get("Compressed to Zip")?></button>
+<?php endif;?>
+<button type="button" class="nice secondary radius button delete-selected"><?php echo lang::get("Delete")?></button>
+
+<?php endif;?>
+<div class="nice radius button split dropdown right">
+  <a class="sort-invert"><?php echo lang::get("Viewed as")?> <?php echo lang::get(ucfirst($_SESSION['sort']['by']))?></a>
+  <span></span>
+  <ul>
+    <li><a class="sort-by-name"><?php echo lang::get("View as Name")?></a></li>
+    <li><a class="sort-by-date"><?php echo lang::get("View as Date")?></a></li>
+    <li><a class="sort-by-size"><?php echo lang::get("View as Size")?></a></li>
+  </ul>
+</div>
+
+</div>
+
+</form>
+</div> <!-- end browse-panel -->
+</div>
+<div id="bottomcorners"></div>
+</div>
+</div>
+
+<div id="modal" class="reveal-modal"></div>
+<div id="second_modal" class="reveal-modal"></div>
+<div id="big_modal" class="reveal-modal large"></div>
+
+<?php jihadC::display("main_js.php")?>
